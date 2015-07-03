@@ -46,16 +46,8 @@ public class ClientMain {
 		do{
 			String login=null, pass=null, log = null, password = null;
 			//on cherche à récupérer dans clients1 uniquement les login et mot de passe
-			clients1.find(new Document().append("login", clients1).append("password", clients1));
 			//on créer l'itérator servant à extraire chaque login et password.
-			Iterator<Document> logpass = clients1.find().iterator();
 			
-			while(logpass.hasNext()){
-				Document passlog = logpass.next();
-				log = passlog.getString("login");
-				password = passlog.getString("password");
-				return;
-			}
 			
 			System.out.println("Bienvenue cher client");
 			System.out.println("login");
@@ -63,11 +55,21 @@ public class ClientMain {
 			System.out.println("mot de passe");
 			pass=sc.next();
 			
-			if(login.equals(log) && password.equals(pass))
-			{
-				token="Ok";
-				clienttrouver = passlog;
+			Iterator<Document> logpass = clients1.find(new Document().append("login", login)).iterator();
+			
+			while(logpass.hasNext() && clienttrouver == null){
+				Document passlog = logpass.next();
+				log = passlog.getString("login");
+				password = passlog.getString("password");
+				if(password.equals(pass))
+				{
+					token="Ok";
+					clienttrouver = passlog;
+				}
+				
 			}
+			
+			
 			
 		}while(!token.equals("Ok"));
 		
