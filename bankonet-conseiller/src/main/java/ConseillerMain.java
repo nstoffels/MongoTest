@@ -82,7 +82,7 @@ public class ConseillerMain {
 							.append("nom", nom)
 							.append("prenom", prenom)
 							.append("login",login)
-							.append("password", "secret");1
+							.append("password", "secret");
 					clients.insertOne(doc);
 					
 					//insertion des nouveaux clients comptes
