@@ -69,7 +69,7 @@ public class ConseillerMain {
 					
 					//initialisation des variables
 					String nom, prenom, login;
-					float solde;
+					float solde, epargne;
 					
 					System.out.println("Entrer un nom");
 					nom = sc.next();
@@ -79,8 +79,9 @@ public class ConseillerMain {
 					login = sc.next();
 					System.out.println("Entrer un solde initiale");
 					solde = sc.nextFloat();
-					
-					System.out.println(nom + " " + prenom + " " + login + " " + solde);
+					System.out.println("Entrer un solde initiale pour compte épargne");
+					epargne = sc.nextFloat();
+					System.out.println(nom + " " + prenom + " " + login + " " + solde+ " " +epargne);
 					
 					//insertion de nouveaux documents clients
 					Document doc=new Document()
@@ -93,7 +94,9 @@ public class ConseillerMain {
 					//insertion des nouveaux clients comptes
 					Document compte = new Document()
 							.append("libelle", "compte_courant")
-							.append("solde", solde);
+							.append("solde", solde)
+							.append("libelle", "compte_epargne")
+							.append("epargne", epargne);
 					cc.insertOne(compte);
 					List<Document> docs=new ArrayList<Document>();
 					doc.append("comptescourant", docs);
@@ -107,9 +110,11 @@ public class ConseillerMain {
 				//liste de tout les documents de la collection
 				//définition des itérators
 				Object name, forname, log, ID;
+				int nbcompte=0;
 				Iterator<Document> clientelle = clients1.find().iterator();
 				Iterator<Document> comptelecture = cc1.find().iterator();
 				//affichage des différentes informations client dans la console
+				
 				while(clientelle.hasNext()){
 					
 					Document listclient = clientelle.next();
@@ -117,12 +122,13 @@ public class ConseillerMain {
 					forname = listclient.get("prenom");
 					log = listclient.get("login");
 					ID = listclient.get("_id");
-					System.out.println("log: "+log+" ID: "+ID+" nom: "+name+" prenom: "+forname);
+//					while(comptelecture.hasNext()){
+//						++nbcompte;
+//					}
+					System.out.println("log: "+log+" ID: "+ID+" nom: "+name+" prenom: "+forname+" nombre de comptes "+nbcompte);
 				}
 				
-//				while(comptelecture.hasNext()){
-//					System.out.println(comptelecture.next());
-//				}
+				
 			break;
 
 			default:
