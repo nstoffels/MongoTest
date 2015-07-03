@@ -41,23 +41,32 @@ public class ClientMain {
 		MongoCollection<Document> clients1 = client.getCollection("persons");
 		Iterator<Document> clientelle = clients1.find().iterator();
 		ArrayList<Document> compteList = new ArrayList<Document>();
-
+		Document clienttrouver = null;
 		//test mdp/login
 		do{
-			String login, password;
-			 clients1.find(new Document().append("login", clients1).append("password", clients1));
-			Object log = listclient.get("login");
-			Object pass = listclient.get("password");
+			String login=null, pass=null, log = null, password = null;
+			//on cherche à récupérer dans clients1 uniquement les login et mot de passe
+			clients1.find(new Document().append("login", clients1).append("password", clients1));
+			//on créer l'itérator servant à extraire chaque login et password.
+			Iterator<Document> logpass = clients1.find().iterator();
+			
+			while(logpass.hasNext()){
+				Document passlog = logpass.next();
+				log = passlog.getString("login");
+				password = passlog.getString("password");
+				return;
+			}
 			
 			System.out.println("Bienvenue cher client");
 			System.out.println("login");
 			login = sc.next();
 			System.out.println("mot de passe");
-			password=sc.next();
+			pass=sc.next();
 			
-			if(log.equals(login) && pass.equals(password))
+			if(login.equals(log) && password.equals(pass))
 			{
 				token="Ok";
+				clienttrouver = passlog;
 			}
 			
 		}while(!token.equals("Ok"));
@@ -83,28 +92,19 @@ public class ClientMain {
 				   mongoClient.close();
 			    break;
 				case 1:
-					MongoCollection<Document> clients1 = client.getCollection("persons");
-					
-
 					//définition des itérators
-					Object name, forname, log, ID;
 					Object nbcompte=0;
 					Object nbcompte2=0;
-					Iterator<Document> clientelle = clients1.find().iterator();
+					Iterator<Document> compteclient = clients1.find().iterator();
 					//ArrayList<Document> compteList = new ArrayList<Document>();
 					
 
 					//affichage des différentes informations client dans la console
-					while(clientelle.hasNext()){
-						
-						Document listclient = clientelle.next();
-						name = listclient.get("nom");
-						forname = listclient.get("prenom");
-						log = listclient.get("login");
-						ID = listclient.get("_id");
-						nbcompte = listclient.get("comptescourant");
-						nbcompte2 = listclient.get("comptesepargne");
-						System.out.println("log: "+log+" ID: "+ID+" nom: "+name+" prenom: "+forname+" nombre de comptes courants: "+nbcompte+" nombre de comptes épargne: "+nbcompte2);
+					while(compteclient.hasNext()){
+						Document moncompte = compteclient.next();
+						nbcompte = moncompte.get("comptescourant");
+						nbcompte2 = moncompte.get("comptesepargne");
+						System.out.println(" nombre de comptes courants: "+nbcompte+" nombre de comptes épargne: "+nbcompte2);
 					}
 				break;
 
