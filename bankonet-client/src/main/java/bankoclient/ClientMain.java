@@ -82,6 +82,7 @@ public class ClientMain {
 			System.out.println("Bienvenue cher client");
 			System.out.println("0. Arrêter le programme");
 			System.out.println("1. afficher vos comptes");
+			System.out.println("2. effectuer un dépot");
 			System.out.println("sélectionner un choix");
 			keycli=sc.nextInt();
 			
@@ -109,7 +110,11 @@ public class ClientMain {
 						System.out.println(" nombre de comptes courants: "+nbcompte+" nombre de comptes épargne: "+nbcompte2);
 					}
 				break;
-
+				
+				case 2:
+					System.out.println("donnez nous votre argent");
+					
+				break;
 				default:
 			   System.out.println("recommencer");
 			}
