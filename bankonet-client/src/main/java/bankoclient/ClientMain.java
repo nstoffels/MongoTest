@@ -43,8 +43,7 @@ public class ClientMain {
 		//ArrayList<Document> compteList = new ArrayList<Document>();
 		
 
-		//affichage des différentes informations client dans la console
-		
+		//test mdp/login
 		do{
 			Document listclient = clientelle.next();
 			Object log = listclient.get("login");
@@ -62,8 +61,11 @@ public class ClientMain {
 			
 		}while(!token.equals("Ok"));
 		
+		
+		
+		
+		//console du client
 		do{
-			
 			
 			System.out.println("Bienvenue cher client");
 			System.out.println("0. Arrêter le programme");
