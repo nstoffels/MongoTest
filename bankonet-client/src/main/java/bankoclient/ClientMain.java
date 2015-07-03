@@ -40,20 +40,21 @@ public class ClientMain {
 		//définition des itérators
 		MongoCollection<Document> clients1 = client.getCollection("persons");
 		Iterator<Document> clientelle = clients1.find().iterator();
-		//ArrayList<Document> compteList = new ArrayList<Document>();
-		
+		ArrayList<Document> compteList = new ArrayList<Document>();
 
 		//test mdp/login
 		do{
-			Document listclient = clientelle.next();
+			String login, password;
+			 clients1.find(new Document().append("login", clients1).append("password", clients1));
 			Object log = listclient.get("login");
 			Object pass = listclient.get("password");
-			String login, password;
+			
 			System.out.println("Bienvenue cher client");
 			System.out.println("login");
 			login = sc.next();
 			System.out.println("mot de passe");
 			password=sc.next();
+			
 			if(log.equals(login) && pass.equals(password))
 			{
 				token="Ok";
@@ -69,6 +70,7 @@ public class ClientMain {
 			
 			System.out.println("Bienvenue cher client");
 			System.out.println("0. Arrêter le programme");
+			System.out.println("1. afficher vos comptes");
 			System.out.println("sélectionner un choix");
 			keycli=sc.nextInt();
 			
@@ -80,7 +82,31 @@ public class ClientMain {
 					//fermeture du programme
 				   mongoClient.close();
 			    break;
-			    
+				case 1:
+					MongoCollection<Document> clients1 = client.getCollection("persons");
+					
+
+					//définition des itérators
+					Object name, forname, log, ID;
+					Object nbcompte=0;
+					Object nbcompte2=0;
+					Iterator<Document> clientelle = clients1.find().iterator();
+					//ArrayList<Document> compteList = new ArrayList<Document>();
+					
+
+					//affichage des différentes informations client dans la console
+					while(clientelle.hasNext()){
+						
+						Document listclient = clientelle.next();
+						name = listclient.get("nom");
+						forname = listclient.get("prenom");
+						log = listclient.get("login");
+						ID = listclient.get("_id");
+						nbcompte = listclient.get("comptescourant");
+						nbcompte2 = listclient.get("comptesepargne");
+						System.out.println("log: "+log+" ID: "+ID+" nom: "+name+" prenom: "+forname+" nombre de comptes courants: "+nbcompte+" nombre de comptes épargne: "+nbcompte2);
+					}
+				break;
 
 				default:
 			   System.out.println("recommencer");
